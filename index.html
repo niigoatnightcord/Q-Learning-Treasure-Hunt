@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An interactive Q-learning GridWorld treasure hunt built with vanilla JavaScript." />
+  <title>Q-Learning Treasure Hunt</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <p class="eyebrow">Reinforcement Learning Demo</p>
+      <h1>Q-Learning Treasure Hunt</h1>
+      <p class="subtitle">
+        Move the robot through a 5 × 5 grid, avoid traps, and reach the treasure.
+        Play manually or train a Q-learning agent to discover a good policy.
+      </p>
+    </header>
+
+    <section class="metrics" aria-label="Game statistics">
+      <article class="metric">
+        <span class="metric-label">Latest reward</span>
+        <strong id="reward" class="metric-value">0.0</strong>
+      </article>
+      <article class="metric">
+        <span class="metric-label">Total reward</span>
+        <strong id="totalReward" class="metric-value">0.0</strong>
+      </article>
+      <article class="metric">
+        <span class="metric-label">Steps</span>
+        <strong id="steps" class="metric-value">0</strong>
+      </article>
+      <article class="metric">
+        <span class="metric-label">Training episodes</span>
+        <strong id="episodes" class="metric-value">0</strong>
+      </article>
+    </section>
+
+    <section class="layout">
+      <div>
+        <div id="board" class="board" aria-label="Five by five grid world"></div>
+
+        <div class="legend" aria-label="Game legend">
+          <span>🤖 Agent</span>
+          <span>💎 Treasure: +10</span>
+          <span>🕳️ Trap: −10</span>
+          <span>Ordinary move: −0.1</span>
+        </div>
+
+        <section class="status-box" aria-live="polite">
+          <h2>Current status</h2>
+          <p id="status">The agent is at state (4, 0), waiting for an action.</p>
+        </section>
+
+        <section class="policy-section">
+          <h2>Learned policy</h2>
+          <div id="policy" class="policy-grid" aria-label="Learned policy grid"></div>
+          <p class="note">
+            Each arrow shows the action with the highest learned Q-value in that state.
+            A dot means no clear action has been learned yet.
+          </p>
+        </section>
+      </div>
+
+      <aside class="controls">
+        <section class="panel">
+          <h2>Manual controls</h2>
+          <div class="dpad">
+            <span></span>
+            <button id="up" type="button" aria-label="Move up">↑</button>
+            <span></span>
+            <button id="left" type="button" aria-label="Move left">←</button>
+            <button id="down" type="button" aria-label="Move down">↓</button>
+            <button id="right" type="button" aria-label="Move right">→</button>
+          </div>
+          <button id="reset" class="secondary" type="button">Reset game</button>
+        </section>
+
+        <section class="panel">
+          <h2>Q-learning controls</h2>
+
+          <label for="trainCount">Training episodes</label>
+          <select id="trainCount">
+            <option value="100">100</option>
+            <option value="500" selected>500</option>
+            <option value="2000">2,000</option>
+            <option value="10000">10,000</option>
+          </select>
+
+          <button id="train" class="primary" type="button">Train the agent</button>
+          <button id="runAI" class="secondary" type="button">Run learned policy</button>
+          <button id="clearQ" class="secondary" type="button">Clear Q-table</button>
+        </section>
+
+        <section class="panel small-text">
+          <h2>MDP definition</h2>
+          <p><strong>State:</strong> robot position</p>
+          <p><strong>Actions:</strong> up, down, left, right</p>
+          <p><strong>Reward:</strong> treasure, traps, step cost</p>
+          <p><strong>Discount:</strong> γ = 0.95</p>
+          <p><strong>Learning rate:</strong> α = 0.15</p>
+        </section>
+      </aside>
+    </section>
+
+    <footer>
+      Built with vanilla HTML, CSS, and JavaScript.
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
